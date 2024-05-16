@@ -24,3 +24,28 @@ services:
       retries: 3
 balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/opexwise-ui$ 
 
+balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/opexwise-ui/docker$ cat Dockerfile 
+FROM nginx:1.14-alpine
+
+MAINTAINER Vinoth Vetrivel <vinoth.vetrivel@iopex.com>
+
+ARG CLIENT_NAME=config
+
+# Install system dependencies
+RUN apk --update add --no-cache vim bash
+
+WORKDIR /var/opt
+
+ADD ./ /var/opt/
+
+RUN mv build/* .
+
+# COPY ./build/assets/config/${CLIENT_NAME}.json /var/opt/assets/config/config.json
+
+RUN rm -rf build
+
+HEALTHCHECK CMD pgrep -f nginx || exit 1
+
+RUN cp -f nginx.conf /etc/nginx/
+balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/o
+
