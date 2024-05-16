@@ -1,0 +1,26 @@
+balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/opexwise-ui$ sudo docker-compose up
+Pulling opexwiseui (iopexlabs/opexwise_ui:dev.16)...
+ERROR: The image for the service you're trying to recreate has been removed. If you continue, volume data could be lost. Consider backing up your data before continuing.
+
+Continue with the new image? [yN]y
+Pulling opexwiseui (iopexlabs/opexwise_ui:dev.16)...
+ERROR: pull access denied for iopexlabs/opexwise_ui, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/opexwise-ui$ cat docker-compose.yaml 
+version: '2.1'
+networks:
+  iopex_network:
+    external: true
+services:
+  opexwiseui:
+    image: iopexlabs/opexwise_ui:dev.16
+    restart: on-failure:5
+    networks:
+      - iopex_network
+    hostname: opexwiseui
+    healthcheck:
+      test: pgrep -f nginx || exit 1
+      interval: 10m
+      timeout: 10s
+      retries: 3
+balasubramaniyand@CHNIOPEXL5097:/opt/opexwise/opexwise-ui$ 
+
